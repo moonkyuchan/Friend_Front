@@ -6,16 +6,21 @@ import {
   IconButton,
   Badge,
   Box,
+  useTheme,
+  useMediaQuery,
 } from "@mui/material";
 import { Notifications, AccountCircle } from "@mui/icons-material";
 
 const Header: React.FC = () => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
   return (
     <AppBar
       position="fixed"
       sx={{
-        width: `calc(100% - 240px)`,
-        ml: "240px",
+        width: isMobile ? "100%" : `calc(100% - 240px)`,
+        ml: isMobile ? 0 : "240px",
       }}
     >
       <Toolbar>
