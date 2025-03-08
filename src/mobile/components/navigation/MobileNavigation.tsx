@@ -16,6 +16,8 @@ const MobileNavigation = () => {
         onChange={(_, newValue) => {
           navigate(newValue);
         }}
+        showLabels
+        sx={{ height: "70px" }}
       >
         <BottomNavigationAction
           label="대시보드"

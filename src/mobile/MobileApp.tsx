@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ThemeProvider, createTheme } from "@mui/material";
 import MobileLayout from "./MobileLayout";
-import Dashboard from "../../pages/Dashboard";
-import Inventory from "../../pages/Inventory/Inventory";
+import Dashboard from "../pages/Dashboard";
+import Inventory from "./pages/inventory/Inventory";
 
 const theme = createTheme({
   palette: {
