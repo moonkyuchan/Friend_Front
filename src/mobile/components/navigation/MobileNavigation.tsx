@@ -25,7 +25,7 @@ const MobileNavigation = () => {
           icon={<Dashboard />}
         />
         <BottomNavigationAction
-          label="재고 관리"
+          label="입출고 관리"
           value="/inventory"
           icon={<Inventory />}
         />

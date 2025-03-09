@@ -17,6 +17,7 @@ const MobileLayout = ({ children }: MobileLayoutProps) => {
           p: 2,
           mt: 7,
           pb: "75px",
+          pt: "5px",
         }}
       >
         {children}

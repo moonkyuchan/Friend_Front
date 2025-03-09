@@ -15,17 +15,19 @@ import {
   TextField,
   Box,
   IconButton,
-  Chip,
   Typography,
+  // Chip,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 interface InventoryItem {
-  id: number;
+  id?: string;
   name: string;
   quantity: number;
-  status: "정상" | "부족" | "위험" | "품절";
+  manager: string;
+  date: string;
+  status: "입고" | "출고";
 }
 
 interface StockChange {
@@ -36,36 +38,33 @@ interface StockChange {
   manager: string;
 }
 
-// 상태별 설정
-const STATUS_CONFIG = {
-  정상: { color: "success" },
-  부족: { color: "warning" },
-  위험: { color: "error" },
-  품절: { color: "default" },
-} as const;
+// // 상태별 설정
+// const STATUS_CONFIG = {
+//   정상: { color: "success" },
+//   부족: { color: "warning" },
+//   위험: { color: "error" },
+//   품절: { color: "default" },
+// } as const;
 
 // const STATUS_OPTIONS = Object.keys(STATUS_CONFIG) as Array<
 //   keyof typeof STATUS_CONFIG
 // >;
 
 const sampleData: InventoryItem[] = [
-  { id: 1, name: "상품 A", quantity: 100, status: "정상" },
-  { id: 2, name: "상품 B", quantity: 50, status: "부족" },
-  { id: 3, name: "상품 C", quantity: 75, status: "정상" },
-  { id: 4, name: "상품 C", quantity: 75, status: "품절" },
-  { id: 5, name: "상품 C", quantity: 75, status: "위험" },
-  { id: 6, name: "상품 C", quantity: 75, status: "정상" },
-  { id: 7, name: "상품 C", quantity: 75, status: "위험" },
-  { id: 8, name: "상품 C", quantity: 75, status: "품절" },
-  { id: 9, name: "상품 C", quantity: 75, status: "정상" },
-  { id: 10, name: "상품 C", quantity: 75, status: "정상" },
-  { id: 11, name: "상품 C", quantity: 75, status: "정상" },
-  { id: 12, name: "상품 C", quantity: 75, status: "정상" },
-  { id: 13, name: "상품 C", quantity: 75, status: "정상" },
-  { id: 14, name: "상품 C", quantity: 75, status: "정상" },
-  { id: 15, name: "상품 C", quantity: 75, status: "정상" },
-  { id: 16, name: "상품 C", quantity: 75, status: "정상" },
-  { id: 17, name: "상품 C", quantity: 75, status: "정상" },
+  {
+    name: "제품A",
+    quantity: 100,
+    manager: "김관리",
+    date: "2024-03-20",
+    status: "입고",
+  },
+  {
+    name: "제품B",
+    quantity: -50,
+    manager: "이담당",
+    date: "2024-03-21",
+    status: "출고",
+  },
 ];
 
 const Inventory: React.FC = () => {
@@ -123,7 +122,7 @@ const Inventory: React.FC = () => {
           mb: 2,
         }}
       >
-        <h2>재고 현황</h2>
+        <h2>입출고 내역</h2>
         <Button variant="contained" size="small" onClick={handleEditOpen}>
           EDIT
         </Button>
@@ -133,23 +132,27 @@ const Inventory: React.FC = () => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>품명</TableCell>
-              <TableCell align="right">수량</TableCell>
-              <TableCell>상태</TableCell>
+              <TableCell>품목명</TableCell>
+              <TableCell>수량</TableCell>
+              <TableCell>담당자</TableCell>
+              <TableCell>날짜</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {items.map((item) => (
               <TableRow key={item.id}>
                 <TableCell>{item.name}</TableCell>
-                <TableCell align="right">{item.quantity}</TableCell>
-                <TableCell>
-                  <Chip
-                    label={item.status}
-                    color={STATUS_CONFIG[item.status].color}
-                    size="small"
-                  />
+                <TableCell
+                  sx={{
+                    color:
+                      item.status === "입고" ? "success.main" : "error.main",
+                    fontWeight: "bold",
+                  }}
+                >
+                  {item.quantity}
                 </TableCell>
+                <TableCell>{item.manager}</TableCell>
+                <TableCell>{item.date}</TableCell>
               </TableRow>
             ))}
           </TableBody>
