@@ -11,6 +11,8 @@ import {
   TableRow,
   Chip,
 } from "@mui/material";
+import RegisterButton from "./components/RegisterButton";
+
 // 테이블 데이터 타입 정의
 interface InventoryItem {
   id: number;
@@ -78,6 +80,62 @@ const inventoryData: InventoryItem[] = [
     quantity: 0,
     status: "out-of-stock",
   },
+  {
+    id: 9,
+    name: "상품 C",
+    category: "식품",
+    quantity: 0,
+    status: "out-of-stock",
+  },
+  {
+    id: 10,
+    name: "상품 C",
+    category: "식품",
+    quantity: 0,
+    status: "out-of-stock",
+  },
+  {
+    id: 11,
+    name: "상품 C",
+    category: "식품",
+    quantity: 0,
+    status: "out-of-stock",
+  },
+  {
+    id: 12,
+    name: "상품 C상품 C상품 C상품 C상품 C상품 C상품 C",
+    category: "식품",
+    quantity: 0,
+    status: "out-of-stock",
+  },
+  {
+    id: 13,
+    name: "상품 C",
+    category: "식품",
+    quantity: 0,
+    status: "out-of-stock",
+  },
+  {
+    id: 14,
+    name: "상품 C",
+    category: "식품",
+    quantity: 0,
+    status: "out-of-stock",
+  },
+  {
+    id: 15,
+    name: "상품 C",
+    category: "식품",
+    quantity: 0,
+    status: "out-of-stock",
+  },
+  {
+    id: 16,
+    name: "상품 C",
+    category: "식품",
+    quantity: 0,
+    status: "out-of-stock",
+  },
   // ... 기존 대시보드 코드 ...
 ];
 
@@ -95,125 +153,57 @@ const Dashboard: React.FC = () => {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      {/* <Box
-        sx={{
-          display: "flex",
-          flexWrap: "wrap",
-          gap: 3,
-        }}
-      >
-        <Box sx={{ width: { xs: "100%", md: "50%", lg: "25%" } }}>
-          <Paper
-            sx={{
-              p: 2,
-              display: "flex",
-              flexDirection: "column",
-              height: 140,
-            }}
-          >
-            <Typography
-              component="h2"
-              variant="h6"
-              color="primary"
-              gutterBottom
-            >
-              총 재고 수량
-            </Typography>
-            <Typography component="p" variant="h4">
-              3,024
-            </Typography>
-          </Paper>
-        </Box>
-        <Box sx={{ width: { xs: "100%", md: "50%", lg: "25%" } }}>
-          <Paper
-            sx={{
-              p: 2,
-              display: "flex",
-              flexDirection: "column",
-              height: 140,
-            }}
-          >
-            <Typography
-              component="h2"
-              variant="h6"
-              color="primary"
-              gutterBottom
-            >
-              금일 입고
-            </Typography>
-            <Typography component="p" variant="h4">
-              156
-            </Typography>
-          </Paper>
-        </Box>
-        <Box sx={{ width: { xs: "100%", md: "50%", lg: "25%" } }}>
-          <Paper
-            sx={{
-              p: 2,
-              display: "flex",
-              flexDirection: "column",
-              height: 140,
-            }}
-          >
-            <Typography
-              component="h2"
-              variant="h6"
-              color="primary"
-              gutterBottom
-            >
-              금일 출고
-            </Typography>
-            <Typography component="p" variant="h4">
-              87
-            </Typography>
-          </Paper>
-        </Box>
-        <Box sx={{ width: { xs: "100%", md: "50%", lg: "25%" } }}>
-          <Paper
-            sx={{
-              p: 2,
-              display: "flex",
-              flexDirection: "column",
-              height: 140,
-            }}
-          >
-            <Typography
-              component="h2"
-              variant="h6"
-              color="primary"
-              gutterBottom
-            >
-              재고 부족 알림
-            </Typography>
-            <Typography component="p" variant="h4">
-              12
-            </Typography>
-          </Paper>
-        </Box>
-      </Box> */}
-
+      <RegisterButton />
       {/* 재고 현황 테이블 */}
       <Box sx={{ mt: 1 }}>
         <Typography variant="h5" gutterBottom sx={{ fontWeight: 600 }}>
           재고 현황
         </Typography>
         <TableContainer component={Paper}>
-          <Table>
+          <Table sx={{ tableLayout: "fixed" }}>
             <TableHead>
               <TableRow>
-                <TableCell>제품명</TableCell>
-                <TableCell>카테고리</TableCell>
-                <TableCell>수량</TableCell>
-                <TableCell>상태</TableCell>
+                <TableCell sx={{ width: "40%" }}>제품명</TableCell>
+                <TableCell align="center" sx={{ width: "20%" }}>
+                  수량
+                </TableCell>
+                <TableCell align="center" sx={{ width: "30%" }}>
+                  상태
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {inventoryData.map((item) => (
                 <TableRow key={item.id}>
-                  <TableCell>{item.name}</TableCell>
-                  <TableCell>{item.category}</TableCell>
-                  <TableCell>{item.quantity}</TableCell>
-                  <TableCell>{getStatusChip(item.status)}</TableCell>
+                  <TableCell
+                    sx={{
+                      width: "40%",
+                      whiteSpace: "nowrap",
+                      overflow: "auto",
+                    }}
+                  >
+                    {item.name}
+                  </TableCell>
+                  <TableCell
+                    align="center"
+                    sx={{
+                      width: "20%",
+                      whiteSpace: "nowrap",
+                      overflow: "auto",
+                    }}
+                  >
+                    {item.quantity}
+                  </TableCell>
+                  <TableCell
+                    align="center"
+                    sx={{
+                      width: "30%",
+                      whiteSpace: "nowrap",
+                      overflow: "auto",
+                    }}
+                  >
+                    {getStatusChip(item.status)}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
