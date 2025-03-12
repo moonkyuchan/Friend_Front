@@ -12,132 +12,9 @@ import {
   Chip,
 } from "@mui/material";
 import RegisterButton from "./components/RegisterButton";
+import DeleteButton from "./components/DeleteButton";
 
-// 테이블 데이터 타입 정의
-interface InventoryItem {
-  id: number;
-  name: string;
-  category: string;
-  quantity: number;
-  status: "in-stock" | "low-stock" | "out-of-stock";
-}
-
-// 샘플 데이터
-const inventoryData: InventoryItem[] = [
-  {
-    id: 1,
-    name: "상품 A",
-    category: "전자기기",
-    quantity: 150,
-    status: "in-stock",
-  },
-  {
-    id: 2,
-    name: "상품 B",
-    category: "의류",
-    quantity: 20,
-    status: "low-stock",
-  },
-  {
-    id: 3,
-    name: "상품 C",
-    category: "식품",
-    quantity: 0,
-    status: "out-of-stock",
-  },
-  {
-    id: 4,
-    name: "상품 C",
-    category: "식품",
-    quantity: 0,
-    status: "out-of-stock",
-  },
-  {
-    id: 5,
-    name: "상품 C",
-    category: "식품",
-    quantity: 0,
-    status: "out-of-stock",
-  },
-  {
-    id: 6,
-    name: "상품 C",
-    category: "식품",
-    quantity: 0,
-    status: "out-of-stock",
-  },
-  {
-    id: 7,
-    name: "상품 C",
-    category: "식품",
-    quantity: 0,
-    status: "out-of-stock",
-  },
-  {
-    id: 8,
-    name: "상품 C",
-    category: "식품",
-    quantity: 0,
-    status: "out-of-stock",
-  },
-  {
-    id: 9,
-    name: "상품 C",
-    category: "식품",
-    quantity: 0,
-    status: "out-of-stock",
-  },
-  {
-    id: 10,
-    name: "상품 C",
-    category: "식품",
-    quantity: 0,
-    status: "out-of-stock",
-  },
-  {
-    id: 11,
-    name: "상품 C",
-    category: "식품",
-    quantity: 0,
-    status: "out-of-stock",
-  },
-  {
-    id: 12,
-    name: "상품 C상품 C상품 C상품 C상품 C상품 C상품 C",
-    category: "식품",
-    quantity: 0,
-    status: "out-of-stock",
-  },
-  {
-    id: 13,
-    name: "상품 C",
-    category: "식품",
-    quantity: 0,
-    status: "out-of-stock",
-  },
-  {
-    id: 14,
-    name: "상품 C",
-    category: "식품",
-    quantity: 0,
-    status: "out-of-stock",
-  },
-  {
-    id: 15,
-    name: "상품 C",
-    category: "식품",
-    quantity: 0,
-    status: "out-of-stock",
-  },
-  {
-    id: 16,
-    name: "상품 C",
-    category: "식품",
-    quantity: 0,
-    status: "out-of-stock",
-  },
-  // ... 기존 대시보드 코드 ...
-];
+import { inventoryData, InventoryItem } from "./constants";
 
 const Dashboard: React.FC = () => {
   const getStatusChip = (status: InventoryItem["status"]) => {
@@ -153,12 +30,25 @@ const Dashboard: React.FC = () => {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <RegisterButton />
       {/* 재고 현황 테이블 */}
       <Box sx={{ mt: 1 }}>
-        <Typography variant="h5" gutterBottom sx={{ fontWeight: 600 }}>
-          재고 현황
-        </Typography>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            mb: 2,
+            padding: "0 10px",
+          }}
+        >
+          <Typography variant="h5" sx={{ fontWeight: 600 }}>
+            재고 현황
+          </Typography>
+          <Box sx={{ display: "flex", gap: 1.5 }}>
+            <RegisterButton />
+            <DeleteButton />
+          </Box>
+        </Box>
         <TableContainer component={Paper}>
           <Table sx={{ tableLayout: "fixed" }}>
             <TableHead>
