@@ -11,7 +11,7 @@ export interface Product {
     salePrice: number; // 판매가
     employeePrice: number; // 직원가
   };
-  standard?: number; //안전수량기준
+  standard?: number | null; //안전수량기준
 }
 
 export interface User {

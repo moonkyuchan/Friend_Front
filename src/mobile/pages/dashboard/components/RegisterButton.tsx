@@ -11,6 +11,8 @@ import {
   FormControl,
   InputLabel,
   Select,
+  Paper,
+  Typography,
 } from "@mui/material";
 
 // import { Product } from "types";
@@ -56,7 +58,7 @@ const textFieldData: TextFieldConfig[] = [
     type: "select",
     size: "small",
     required: true,
-    options: ["VC", "영양제", "주사제", "소모품"],
+    options: ["VC", "영양제", "주사제", "소모품", "건기식"],
     gridSize: 6,
   },
   {
@@ -74,14 +76,14 @@ const textFieldData: TextFieldConfig[] = [
     type: "text",
     size: "small",
     required: true,
-    gridSize: 8,
+    gridSize: 12,
   },
   {
     id: "tel",
     label: "연락처",
     type: "text",
     size: "small",
-    gridSize: 4,
+    gridSize: 12,
   },
   {
     id: "purchasePrice",
@@ -89,22 +91,21 @@ const textFieldData: TextFieldConfig[] = [
     type: "number",
     size: "small",
     required: true,
-    gridSize: 4,
+    gridSize: 12,
   },
   {
     id: "salePrice",
     label: "판매가",
     type: "number",
     size: "small",
-    required: true,
-    gridSize: 4,
+    gridSize: 12,
   },
   {
     id: "employeePrice",
     label: "직원가",
     type: "number",
     size: "small",
-    gridSize: 4,
+    gridSize: 12,
   },
 ];
 
@@ -116,6 +117,29 @@ const RegisterButton: React.FC = () => {
     setFormData((prev) => ({ ...prev, [id]: value }));
   };
 
+  const handleSubmit = () => {
+    // 로컬 스토리지에서 기존 데이터 가져오기
+    const existingData = localStorage.getItem("products");
+    const products = existingData ? JSON.parse(existingData) : [];
+
+    // 새로운 상품 데이터 생성
+    const newProduct = {
+      id: Date.now(), // 임시 ID 생성
+      ...formData,
+      createdAt: new Date().toISOString(),
+    };
+
+    // 새로운 상품을 배열에 추가
+    products.push(newProduct);
+
+    // 로컬 스토리지에 저장
+    localStorage.setItem("products", JSON.stringify(products));
+
+    // 폼 초기화 및 다이얼로그 닫기
+    setFormData({});
+    setIsAddDialogOpen(false);
+  };
+
   return (
     <Box sx={{ display: "flex", mb: 1, mt: 1 }}>
       <Button
@@ -123,48 +147,93 @@ const RegisterButton: React.FC = () => {
         color="primary"
         onClick={() => setIsAddDialogOpen(true)}
         size="medium"
-        sx={{ width: "100%" }}
       >
         상품등록
       </Button>
 
-      {/* 상품등록 다이얼로그 */}
       <Dialog
         open={isAddDialogOpen}
-        onClose={() => setIsAddDialogOpen(false)}
+        onClose={() => {
+          setIsAddDialogOpen(false);
+        }}
         maxWidth="md"
-        // fullWidth
         fullScreen
       >
-        <DialogTitle>상품등록</DialogTitle>
+        <DialogTitle sx={{ fontWeight: 700, fontSize: "1.5rem" }}>
+          상품등록
+        </DialogTitle>
         <DialogContent>
           <Box sx={{ mt: 2 }}>
-            <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2 }}>
-              {textFieldData.map((field) => (
-                <Box
-                  key={field.id}
-                  sx={{ width: `calc(${(field.gridSize / 12) * 100}% - 16px)` }}
-                >
-                  {field.type === "select" ? (
-                    <FormControl
-                      fullWidth
-                      size={field.size}
-                      required={field.required}
-                    >
-                      <InputLabel>{field.label}</InputLabel>
-                      <Select
-                        value={formData[field.id] || ""}
-                        label={field.label}
-                        onChange={(e) => handleChange(field.id, e.target.value)}
+            <Paper variant="outlined" sx={{ p: 2 }}>
+              <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2 }}>
+                {textFieldData.slice(0, 3).map((field) => (
+                  <Box
+                    key={field.id}
+                    sx={{
+                      // width: `calc(${(field.gridSize / 12) * 100}% - 16px)`,
+                      width: "100%",
+                    }}
+                  >
+                    {field.type === "select" ? (
+                      <FormControl
+                        fullWidth
+                        size={field.size}
+                        required={field.required}
                       >
-                        {field.options?.map((option) => (
-                          <MenuItem key={option} value={option}>
-                            {option}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-                  ) : (
+                        <InputLabel>{field.label}</InputLabel>
+                        <Select
+                          value={formData[field.id] || ""}
+                          label={field.label}
+                          onChange={(e) =>
+                            handleChange(field.id, e.target.value)
+                          }
+                        >
+                          {field.options?.map((option) => (
+                            <MenuItem key={option} value={option}>
+                              {option}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+                    ) : (
+                      <TextField
+                        fullWidth
+                        id={field.id}
+                        label={field.label}
+                        type={field.type}
+                        size={field.size}
+                        required={field.required}
+                        value={formData[field.id] || ""}
+                        onChange={(e) => handleChange(field.id, e.target.value)}
+                      />
+                    )}
+                  </Box>
+                ))}
+              </Box>
+            </Paper>
+
+            {/* 공급업체 정보 그룹 */}
+            <Paper variant="outlined" sx={{ mt: 2, p: 2 }}>
+              <Typography
+                variant="subtitle1"
+                sx={{ mb: 2, fontWeight: "bold" }}
+              >
+                공급업체 정보
+              </Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  gap: 2,
+                }}
+              >
+                {textFieldData.slice(3, 8).map((field) => (
+                  <Box
+                    key={field.id}
+                    sx={{
+                      width: "100%",
+                    }}
+                  >
                     <TextField
                       fullWidth
                       id={field.id}
@@ -175,15 +244,32 @@ const RegisterButton: React.FC = () => {
                       value={formData[field.id] || ""}
                       onChange={(e) => handleChange(field.id, e.target.value)}
                     />
-                  )}
-                </Box>
-              ))}
-            </Box>
+                  </Box>
+                ))}
+              </Box>
+            </Paper>
           </Box>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setIsAddDialogOpen(false)}>취소</Button>
-          <Button variant="contained" onClick={() => setIsAddDialogOpen(false)}>
+          <Button
+            onClick={() => {
+              setIsAddDialogOpen(false);
+              setFormData({});
+            }}
+          >
+            취소
+          </Button>
+          <Button
+            variant="contained"
+            onClick={handleSubmit}
+            disabled={
+              !formData.name ||
+              !formData.category ||
+              !formData.type ||
+              !formData.supplier ||
+              !formData.purchasePrice
+            }
+          >
             등록
           </Button>
         </DialogActions>
