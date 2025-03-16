@@ -7,6 +7,7 @@
     "@emotion/styled": "^11.14.0",
     "@mui/icons-material": "^6.4.4",
     "@mui/material": "^6.4.4",
+    "@supabase/supabase-js": "^2.49.1",
     "@types/react-router-dom": "^5.3.3",
     "cra-template-typescript": "1.2.0",
     "react": "^19.0.0",
@@ -19,7 +20,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "genType": "supabase gen types typescript --project-id \"gyflafwxmwcdqivlukqp\" --schema public > supabase.ts"
   },
   "eslintConfig": {
     "extends": [
@@ -40,6 +42,7 @@
     ]
   },
   "devDependencies": {
-    "@types/react-dom": "^19.0.3"
+    "@types/react-dom": "^19.0.3",
+    "supabase-cli": "^0.0.21"
   }
 }

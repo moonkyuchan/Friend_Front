@@ -9,24 +9,26 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Chip,
+  // Chip,
 } from "@mui/material";
 import RegisterButton from "./components/RegisterButton";
 import DeleteButton from "./components/DeleteButton";
+import { getProduct } from "../../../lib/api";
 
-import { inventoryData, InventoryItem } from "./constants";
+// import { inventoryData, InventoryItem } from "./constants";
+getProduct();
 
 const Dashboard: React.FC = () => {
-  const getStatusChip = (status: InventoryItem["status"]) => {
-    const statusConfig = {
-      "in-stock": { label: "재고있음", color: "success" },
-      "low-stock": { label: "부족", color: "warning" },
-      "out-of-stock": { label: "재고없음", color: "error" },
-    } as const;
+  // const getStatusChip = (status: InventoryItem["status"]) => {
+  //   const statusConfig = {
+  //     "in-stock": { label: "재고있음", color: "success" },
+  //     "low-stock": { label: "부족", color: "warning" },
+  //     "out-of-stock": { label: "재고없음", color: "error" },
+  //   } as const;
 
-    const config = statusConfig[status];
-    return <Chip label={config.label} color={config.color} size="small" />;
-  };
+  //   const config = statusConfig[status];
+  //   return <Chip label={config.label} color={config.color} size="small" />;
+  // };
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -63,7 +65,7 @@ const Dashboard: React.FC = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {inventoryData.map((item) => (
+              {/* {inventoryData.map((item) => (
                 <TableRow key={item.id}>
                   <TableCell
                     sx={{
@@ -95,7 +97,7 @@ const Dashboard: React.FC = () => {
                     {getStatusChip(item.status)}
                   </TableCell>
                 </TableRow>
-              ))}
+              ))} */}
             </TableBody>
           </Table>
         </TableContainer>
