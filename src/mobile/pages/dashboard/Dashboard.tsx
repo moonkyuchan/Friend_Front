@@ -9,27 +9,14 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  // Chip,
 } from "@mui/material";
 import RegisterButton from "./components/RegisterButton";
 import DeleteButton from "./components/DeleteButton";
-import { getProduct } from "../../../lib/api";
+// import { getProduct } from "../../../lib/api";
 
 // import { inventoryData, InventoryItem } from "./constants";
-getProduct();
 
 const Dashboard: React.FC = () => {
-  // const getStatusChip = (status: InventoryItem["status"]) => {
-  //   const statusConfig = {
-  //     "in-stock": { label: "재고있음", color: "success" },
-  //     "low-stock": { label: "부족", color: "warning" },
-  //     "out-of-stock": { label: "재고없음", color: "error" },
-  //   } as const;
-
-  //   const config = statusConfig[status];
-  //   return <Chip label={config.label} color={config.color} size="small" />;
-  // };
-
   return (
     <Box sx={{ flexGrow: 1 }}>
       {/* 재고 현황 테이블 */}

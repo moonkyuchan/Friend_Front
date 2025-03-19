@@ -3,8 +3,8 @@ export interface Supplier {
   id: number; // 고유 ID
   company: string; // 회사명
   tel?: string; // 대표 연락처
-  managers: Supplier_Manager[]; // 해당 공급업체 담당자들 정보
-  products: Product_Info[]; // 해당 공급업체에 속해있는 의약품들
+  managers: Supplier_Manager[]; // 해당 공급업체 담당자들 정보 (외래키 : Supplier_Manager_id)
+  products: Product_Info[]; // 해당 공급업체에 속해있는 의약품들 (외래키 : Product_Info_id) 
 }
 
 export interface Product_Info {
@@ -23,6 +23,7 @@ export interface Supplier_Manager {
   position?: string; // 직책
   assigned_region: string[]; // 담당 지역 enum 타입으로 정의
 }
+
 export interface Inventory_item {
   id: number; // 고유 ID
   name: string; // 의약품 이름

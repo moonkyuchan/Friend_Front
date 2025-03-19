@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { supabase } from "../../../../lib/supabase";
 import {
   Box,
   Button,
@@ -12,16 +13,31 @@ import {
   InputLabel,
   Select,
   Paper,
-  Typography,
 } from "@mui/material";
 import { textFieldData } from "../constants";
 
-const RegisterButton: React.FC = () => {
+const ReceiveButton: React.FC = () => {
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [formData, setFormData] = useState<Record<string, string>>({});
 
   const handleChange = (id: string, value: string) => {
     setFormData((prev) => ({ ...prev, [id]: value }));
+  };
+
+  const handleSubmit = async () => {
+    const { error } = await supabase.rpc("insert_transaction", {
+      p_supplier_name: formData.supplier,
+      p_medicine_name: formData.medicine,
+      p_manager_name: formData.manager,
+      p_transaction_type: formData.transactionType,
+      p_quantity: parseInt(formData.quantity, 10),
+    });
+
+    if (error) {
+      console.error("입출고 데이터 저장 실패:", error.message);
+    } else {
+      console.log("입출고 데이터 저장 성공!");
+    }
   };
 
   return (
@@ -32,7 +48,7 @@ const RegisterButton: React.FC = () => {
         onClick={() => setIsAddDialogOpen(true)}
         size="medium"
       >
-        상품등록
+        입/출고 등록
       </Button>
 
       <Dialog
@@ -41,16 +57,15 @@ const RegisterButton: React.FC = () => {
           setIsAddDialogOpen(false);
         }}
         maxWidth="md"
-        fullScreen
       >
         <DialogTitle sx={{ fontWeight: 700, fontSize: "1.5rem" }}>
-          상품등록
+          입 / 출고등록
         </DialogTitle>
         <DialogContent>
           <Box sx={{ mt: 2 }}>
             <Paper variant="outlined" sx={{ p: 2 }}>
-              <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2 }}>
-                {textFieldData.slice(0, 3).map((field) => (
+              <Box sx={{ display: "flex", flexWrap: "wrap", gap: 5 }}>
+                {textFieldData.map((field) => (
                   <Box
                     key={field.id}
                     sx={{
@@ -59,12 +74,14 @@ const RegisterButton: React.FC = () => {
                   >
                     {field.type === "select" ? (
                       <FormControl
+                        id={field.id}
                         fullWidth
                         size={field.size}
                         required={field.required}
                       >
                         <InputLabel>{field.label}</InputLabel>
                         <Select
+                          key={field.id}
                           value={formData[field.id] || ""}
                           label={field.label}
                           onChange={(e) =>
@@ -94,43 +111,6 @@ const RegisterButton: React.FC = () => {
                 ))}
               </Box>
             </Paper>
-
-            {/* 공급업체 정보 그룹 */}
-            <Paper variant="outlined" sx={{ mt: 2, p: 2 }}>
-              <Typography
-                variant="subtitle1"
-                sx={{ mb: 2, fontWeight: "bold" }}
-              >
-                공급업체 정보
-              </Typography>
-              <Box
-                sx={{
-                  display: "flex",
-                  flexWrap: "wrap",
-                  gap: 2,
-                }}
-              >
-                {textFieldData.slice(3, 8).map((field) => (
-                  <Box
-                    key={field.id}
-                    sx={{
-                      width: "100%",
-                    }}
-                  >
-                    <TextField
-                      fullWidth
-                      id={field.id}
-                      label={field.label}
-                      type={field.type}
-                      size={field.size}
-                      required={field.required}
-                      value={formData[field.id] || ""}
-                      onChange={(e) => handleChange(field.id, e.target.value)}
-                    />
-                  </Box>
-                ))}
-              </Box>
-            </Paper>
           </Box>
         </DialogContent>
         <DialogActions>
@@ -145,12 +125,13 @@ const RegisterButton: React.FC = () => {
           <Button
             variant="contained"
             disabled={
-              !formData.name ||
-              !formData.category ||
-              !formData.type ||
               !formData.supplier ||
-              !formData.purchasePrice
+              !formData.medicine ||
+              !formData.manager ||
+              !formData.transactionType ||
+              !formData.quantity
             }
+            onClick={handleSubmit}
           >
             등록
           </Button>
@@ -160,4 +141,4 @@ const RegisterButton: React.FC = () => {
   );
 };
 
-export default RegisterButton;
+export default ReceiveButton;
