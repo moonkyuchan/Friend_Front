@@ -32,7 +32,7 @@ const ReceiveButton: React.FC = () => {
       p_transaction_type: formData.transactionType,
       p_quantity: parseInt(formData.quantity, 10),
     });
-
+    console.log("submit버튼", formData);
     if (error) {
       console.error("입출고 데이터 저장 실패:", error.message);
     } else {
