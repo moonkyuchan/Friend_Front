@@ -26,6 +26,7 @@ interface ReceiveDialogProps {
   open: boolean;
   onClose: () => void;
 }
+
 interface FormData {
   supplier?: string | number;
   medicine?: string | number;
