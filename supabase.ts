@@ -13,22 +13,25 @@ export type Database = {
         Row: {
           branch_id: number
           medicine_id: number
+          quantity: number | null
+          staff: number | null
           standard: number | null
-          stock: number | null
           supplier_id: number
         }
         Insert: {
-          branch_id: number
+          branch_id?: number
           medicine_id: number
+          quantity?: number | null
+          staff?: number | null
           standard?: number | null
-          stock?: number | null
           supplier_id: number
         }
         Update: {
           branch_id?: number
           medicine_id?: number
+          quantity?: number | null
+          staff?: number | null
           standard?: number | null
-          stock?: number | null
           supplier_id?: number
         }
         Relationships: [
@@ -44,6 +47,13 @@ export type Database = {
             columns: ["medicine_id"]
             isOneToOne: false
             referencedRelation: "medicines"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "branch_medicine_stock_link_staff_fkey"
+            columns: ["staff"]
+            isOneToOne: false
+            referencedRelation: "users"
             referencedColumns: ["id"]
           },
           {
@@ -363,7 +373,16 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      insert_transaction: {
+        Args: {
+          p_supplier_name: string
+          p_medicine_name: string
+          p_manager_name: string
+          p_transaction_type: string
+          p_quantity: number
+        }
+        Returns: undefined
+      }
     }
     Enums: {
       hospital_branch: "광명" | "건대" | "임학" | "마곡" | "송도" | "송도OS"

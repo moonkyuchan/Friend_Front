@@ -9,38 +9,20 @@ import {
   Paper,
   Box,
   Typography,
+  Button,
 } from "@mui/material";
-import ReceiveButton from "./components/ReceiveButton";
-interface InventoryItem {
-  id?: string;
-  name: string;
-  quantity: number;
-  manager: string;
-  date: string;
-  status: "입고" | "출고";
-}
-
-const sampleData: InventoryItem[] = [
-  {
-    id: "1",
-    name: "제품A",
-    quantity: 100,
-    manager: "김관리",
-    date: "2024-03-20",
-    status: "입고",
-  },
-  {
-    id: "2",
-    name: "제품B",
-    quantity: -50,
-    manager: "이담당",
-    date: "2024-03-21",
-    status: "출고",
-  },
-];
+import ReceiveDialog from "./components/ReceiveDialog";
 
 const Inventory: React.FC = () => {
-  const [items] = useState<InventoryItem[]>(sampleData);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const handleOpenDialog = () => {
+    setIsDialogOpen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setIsDialogOpen(false);
+  };
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -57,9 +39,22 @@ const Inventory: React.FC = () => {
           입출고 관리
         </Typography>
         <Box sx={{ display: "flex", gap: 1 }}>
-          <ReceiveButton />
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleOpenDialog}
+            size="medium"
+          >
+            입/출고 등록
+          </Button>
         </Box>
       </Box>
+
+      {/* 다이얼로그는 isDialogOpen 상태에 따라 조건부 렌더링 */}
+      {isDialogOpen && (
+        <ReceiveDialog open={isDialogOpen} onClose={handleCloseDialog} />
+      )}
+
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
@@ -70,24 +65,7 @@ const Inventory: React.FC = () => {
               <TableCell>날짜</TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
-            {items.map((item) => (
-              <TableRow key={item.id}>
-                <TableCell>{item.name}</TableCell>
-                <TableCell
-                  sx={{
-                    color:
-                      item.status === "입고" ? "success.main" : "error.main",
-                    fontWeight: "bold",
-                  }}
-                >
-                  {item.quantity}
-                </TableCell>
-                <TableCell>{item.manager}</TableCell>
-                <TableCell>{item.date}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
+          <TableBody></TableBody>
         </Table>
       </TableContainer>
     </Box>
